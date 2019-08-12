@@ -1,0 +1,29 @@
+190809
+redirect
+외부 입력값을 검증, 제한없이 리다이렉트 주소로 사용하는 경우 발생
+-> 의도하지 않은(계획되지 않은) 외부 사이트로 리다이렉션이 발생할 수 있음
+
+String url = request.getParameter("url");
+response.sendRedirect(url);
+
+
+경로추적
+외부 입력값을 경로조작문자열 포함 여부를 확인하지 않고, 내부 파일 참조에 사용하는 경우 발생
+=> 권한 밖의 파일에 접근이 가능
+=> 지정된 경로 밖의 파일에 접근이 가능
+
+--------------------------------------------------
+String fname = request.getParameter("file_name");
+File f = new File("/upload/data/2019/08/" + fname);
+-------------------------------------------------- 
+정상 요청 : download.jsp?file_name=abc.gif => /upload/data/2019/08/abc.gif 파일을
+다운로드 처리
+비정상 요청 : download.jsp?file_name=../../../../../../../../../etc.passwd =>
+/etc/passwd 파일을 다운로드 처리
+
+
+
+암호화
+1) 암호화 알고리즘 = 비도를 보장하는 알고리즘
+2) 안정성을 보장하는 키 길이 사용
+3) 키 관리
