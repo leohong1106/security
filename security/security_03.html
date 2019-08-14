@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>about cookie</title>
+</head>
+
+<body>
+
+    <h1>Cookie</h1>
+    1)  쿠키에 중요정보를 포함하지 않는다. → 쉽게 노출, 유출되고, 위변조가 가능하므로
+    2)  중요정보를 포함하는 경우, 반드시 암호화한다.
+    3)  유효기간(Expires), 지속시간(MaxAge)
+            a)길게 설정된 경우 -> 사용자 하드디스크에 파일로 저장 = Disk, Persistence(영구적) Cookie,
+            b)설정되지 않거나 짧게 설정된 경우 -> 메모리에 저장 = Memory, Session Cookie
+    4)  보안(Secure)
+            a)설정된 경우 -> 보안 쿠키 = HTTPS 통신인 경우에만 서버로 전달
+            b)설정되지 않은 경우 -> 비보안 쿠키
+    5)  HttpOnly
+            a)클라이언트(브라우저)에서 쿠키에 접근을 차단
+            b)모든 브라우저에서 지원하지 않음
+
+    
+    <h1>Session</h1>
+    안전한 세션 ID 생성 및 관리 규칙
+   1) 세션 ID 생성 규칙을 유추할 수 있으면 안 됨 ⇒ 세션 ID 추측 공격이 가능 = 이전에 생성된 세션 ID 또는 이후에 생성될 세션 ID를 예측하여 공격자가 설정하고 대기
+   2) 세션 ID가 인증전과 인증후 다르게 생성되여야 한다. ⇒ 세션 ID 고정 공격이 가능 = 공격자(사이트에 접속 권한 없음)가 발급 받은 세션 ID를 희생자(사이트에 접속 권한이 있음)에게 설정 후 희생자가 로그인하면
+     공격자도 로그인된 상태를 가지게 됨
+   3) 서버로부터 발급받은 세션 ID를 훔쳐가는 것을 방지 ⇒ 세션 ID 훔치기 공격이 가능 = XSS 공격 또는 스니핑 등의 공격을 통해서 세션 ID를 훔쳐감
+
+
+
+</body>
+
+</html>
