@@ -1,0 +1,43 @@
+@RequestMapping(value = "/login.do", method = RequestMethod.POST)
+	public ModelAndView loginProc(@ModelAttribute("LoginModel") LoginSessionModel loginModel, BindingResult result, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+
+		// form validation
+		// Spring 프레임워크의 Validator 객체를 이용해서 userId와 userPw 입력 여부를 체크
+		new LoginValidator().validate(loginModel, result);
+		if (result.hasErrors()) {
+			mav.setViewName("/board/login");
+			return mav;
+		}
+
+		// 진단결과
+		// 인증시도 회수를 체크하는 로직이 존재하지 않음 
+		// 사전대입공격 또는 무작위대입공격을 통해 인증정보 탈취 가능
+		
+		// 대응방안
+		// 인증시도 실패 회수를 체크해서 일정 회수를 초과하면 
+		// 일정 시간 동안 인증할 수 없도록 차단
+		
+		// 파라미터로 전달된 userId와 userPw 값과 일치하는 정보가 존재하는지 조회
+		String userId = loginModel.getUserId();
+		String userPw = loginModel.getUserPw();
+		LoginSessionModel loginCheckResult = service.checkUserId(userId, userPw);
+
+		// 일치하는 정보가 없는 경우 
+		// 오류 코드와 함께 login 페이지를 반환
+		if (loginCheckResult == null) {
+			mav.addObject("userId", userId);
+			mav.addObject("errCode", 1);
+			mav.setViewName("/board/login");
+			return mav;
+		} 
+		// 일치하는 정보가 있는 경우
+		// list.do 페이지로 리다이렉트 
+		else {
+			session.setAttribute("userId", userId);
+			session.setAttribute("userName", loginCheckResult.getUserName());
+			mav.setViewName("redirect:/board/list.do");
+			return mav;
+		}
+
+	}
